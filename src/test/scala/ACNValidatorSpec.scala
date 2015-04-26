@@ -1,10 +1,11 @@
-import collection.mutable.Stack
+package com.github.edwardsmatt.asic.validator;
+
 import org.scalatest._
 import OptionValues._
 import EitherValues._
-import Main._
+import com.github.edwardsmatt.asic.validator.ACNValidator._
 
-class ParseInputSpec extends FlatSpec with Matchers {
+class ACNValidatorSpec extends FlatSpec with Matchers {
 
 	val validACN = "004 085 616"
 	val validACNArray = Array(0, 0, 4, 0, 8, 5, 6, 1, 6)
@@ -17,22 +18,22 @@ class ParseInputSpec extends FlatSpec with Matchers {
 	}
 
 	"A Left" should "be returned with blank input" in {
-		val instance = Main.parseInput("")
+		val instance = parseInput("")
 		instance should be (Left("Invalid input: blank"))
 	}
 
 	it should "be returned with Long input" in {
-		val instance = Main.parseInput("0123456789")
+		val instance = parseInput("0123456789")
 		instance should be (Left("Invalid input: Expected 9 digits (was 10)"))
 	}
 
 	it should "be returned with Short input" in {
-		val instance = Main.parseInput("01234567")
+		val instance = parseInput("01234567")
 		instance should be (Left("Invalid input: Expected 9 digits (was 8)"))
 	}
 
 	it should "be returned with non-numeric charcters" in { 
-		val instance = Main.parseInput("_")
+		val instance = parseInput("_")
 		instance should be (Left("Invalid input: must be numeric"))
 	}
 
@@ -42,32 +43,32 @@ class ParseInputSpec extends FlatSpec with Matchers {
 	}
 
 	"The checksum digits" should "all but the last digit of the ACN" in {
-		val instance = checksumDigits(validACNArray)
+		val instance = toCheckSumDigits(validACNArray)
 		instance should be (Array(0, 0, 4, 0, 8, 5, 6, 1))
 	}
 
 	"The complement digit" should "be calculated from the checksum digits" in {
-		val instance = complement(checksumDigits(validACNArray))
+		val instance = complement(validACNArray)
 		instance should be (6)
 	}
 
 	"A Valid ACN" should "return true (String)" in {
-		val instance = isValidAcn(validACN)
+		val instance = isValid(validACN)
 		instance should be ((validACN, true))
 	}
 
 	it should "return true (Array[Int])" in {
-		val instance = isValidAcn(validACNArray)
+		val instance = isValid(validACNArray)
 		instance should be (true)
 	}
 
 	"An invalid ACN" should "return false (String)" in {
-		val instance = isValidAcn("0 0 0 0 0 0 0 1 ")
+		val instance = isValid("0 0 0 0 0 0 0 1 ")
 		instance should be (("000 000 01", false))
 	}
 
 	it should "return false (Array[Int])" in {
-		val instance = isValidAcn(Array(0, 0, 0, 0, 0, 0, 0, 1))
+		val instance = isValid(Array(0, 0, 0, 0, 0, 0, 0, 1))
 		instance should be (false)
 	}
 
