@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/edwardsmatt/acn-validator.svg?branch=master)](https://travis-ci.org/edwardsmatt/acn-validator)
 # acn-validator
 Implementation of the Australian Company Number Check Digit Validation Algorithm in Scala.
 
