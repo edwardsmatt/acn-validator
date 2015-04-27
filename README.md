@@ -19,11 +19,6 @@ http://www.asic.gov.au/for-business/starting-a-company/how-to-start-a-company/au
             <version>2.11-0.0.1</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
 
 
         import com.github.edwardsmatt.asic.validator.ACNValidator;
