@@ -1,8 +1,9 @@
-[![Build Status](https://travis-ci.org/edwardsmatt/acn-validator.svg?branch=master)](https://travis-ci.org/edwardsmatt/acn-validator)
 # acn-validator
+[![Build Status](https://travis-ci.org/edwardsmatt/acn-validator.svg?branch=master)](https://travis-ci.org/edwardsmatt/acn-validator)
+
 Implementation of the Australian Company Number Check Digit Validation Algorithm in Scala.
 
-The original description can be found here:
+The ASIC definition of the algorithm can ve found here:
 
 http://www.asic.gov.au/for-business/starting-a-company/how-to-start-a-company/australian-company-numbers/australian-company-number-digit-check/
 
