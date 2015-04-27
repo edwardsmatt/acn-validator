@@ -1,5 +1,4 @@
 package com.github.edwardsmatt.asic.validator;
-import org.apache.commons.lang3.StringUtils
 
 /**
   * Implementation of the ASIC Australian Company Number (ACN) Check Digit Validation. 
@@ -18,7 +17,7 @@ object ACNValidator {
 	def complement(acn: Array[Int]): Int = (toCheckSumDigits andThen toProduct andThen toRemainder andThen toComplement)(acn)
 
 	/** Format the ACN as per the ASIC convention,  in three blocks of three characters separated by a space. */
-	def formatAcn(s: String) = StringUtils.deleteWhitespace(s).grouped(3).toList.mkString(" ")
+	def formatAcn(s: String) = removeWhitespace(s).grouped(3).toList.mkString(" ")
 
 	/** Check whether an Int Array is a valid ACN. */
 	def isValid(acn: Array[Int]): Boolean = complement(acn) == checkDigit(acn)
@@ -35,9 +34,9 @@ object ACNValidator {
 
 	/** Parse and sanitize input strings */
 	def parseInput(s: String): Either[String, Array[Int]]  = {
-		val stripped = StringUtils.deleteWhitespace(s)
+		val stripped = removeWhitespace(s)
 		if (stripped.isEmpty) return Left("Invalid input: blank")
-		if (!StringUtils.isNumeric(stripped)) return Left("Invalid input: must be numeric")
+		if (!isNumeric(stripped)) return Left("Invalid input: must be numeric")
 		if (stripped.length != 9) return Left(s"Invalid input: Expected 9 digits (was ${stripped.length})")
 		Right(stripped.toCharArray.map(c => Integer.parseInt(c+"")))
 	}
@@ -57,4 +56,7 @@ object ACNValidator {
 	
 	/** Weighting Array (8, 7, 6, 5, 4, 3, 2, 1). */
 	private val Weighting = (1 to 8).reverse.toArray
+
+	def removeWhitespace = (s: String) => s.toCharArray.filter(!_.isWhitespace).mkString
+	def isNumeric(s: String): Boolean = s.forall(_.isDigit)
 }
