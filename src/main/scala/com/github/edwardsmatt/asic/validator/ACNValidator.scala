@@ -16,7 +16,7 @@ object ACNValidator {
 	/** Calculate the complement of an ACN. */
 	def complement(acn: Array[Int]): Int = (toCheckSumDigits andThen toProduct andThen toRemainder andThen toComplement)(acn)
 
-	/** Format the ACN as per the ASIC convention,  in three blocks of three characters separated by a space. */
+	/** Format the ACN as per the ASIC convention,  in three blocks of three characters separated by a space.*/
 	def formatAcn(s: String) = removeWhitespace(s).grouped(3).toList.mkString(" ")
 
 	/** Check whether an Int Array is a valid ACN. */
@@ -35,10 +35,10 @@ object ACNValidator {
 	/** Parse and sanitize input strings */
 	def parseInput(s: String): Either[String, Array[Int]]  = {
 		val stripped = removeWhitespace(s)
-		if (stripped.isEmpty) return Left("Invalid input: blank")
-		if (!isNumeric(stripped)) return Left("Invalid input: must be numeric")
-		if (stripped.length != 9) return Left(s"Invalid input: Expected 9 digits (was ${stripped.length})")
-		Right(stripped.toCharArray.map(c => Integer.parseInt(c+"")))
+		if (stripped.isEmpty) Left[String, Array[Int]]("Invalid input: blank") 
+		else if (!isNumeric(stripped)) Left[String, Array[Int]]("Invalid input: must be numeric")
+		else if (stripped.length != 9) Left[String, Array[Int]](s"Invalid input: Expected 9 digits (was ${stripped.length})")
+		else Right[String, Array[Int]](stripped.toCharArray.map(c => Integer.parseInt(c+"")))
 	}
 
 	def main(args: Array[String]) = for (i <- args.map(isValidAcnWithMessage)) println(i)
