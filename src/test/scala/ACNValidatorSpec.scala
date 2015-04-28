@@ -11,29 +11,29 @@ class ACNValidatorSpec extends FlatSpec with Matchers {
 	val validACNArray = Array(0, 0, 4, 0, 8, 5, 6, 1, 6)
 
 	"Valid input" should "return a Right an Array[Int]" in {
-		val instance = parseInput(validACN)
+		val instance = validateInput(validACN)
 		val expected = Array(0, 0, 4, 0, 8, 5, 6, 1, 6)
 		instance should be ('right)
 		instance.right.value should equal (expected)
 	}
 
 	"A Left" should "be returned with blank input" in {
-		val instance = parseInput("")
+		val instance = validateInput("")
 		instance should be (Left[String, Array[Int]]("Invalid input: blank"))
 	}
 
 	it should "be returned with Long input" in {
-		val instance = parseInput("0123456789")
+		val instance = validateInput("0123456789")
 		instance should be (Left[String, Array[Int]]("Invalid input: Expected 9 digits (was 10)"))
 	}
 
 	it should "be returned with Short input" in {
-		val instance = parseInput("01234567")
+		val instance = validateInput("01234567")
 		instance should be (Left[String, Array[Int]]("Invalid input: Expected 9 digits (was 8)"))
 	}
 
 	it should "be returned with non-numeric charcters" in { 
-		val instance = parseInput("_")
+		val instance = validateInput("_")
 		instance should be (Left[String, Array[Int]]("Invalid input: must be numeric"))
 	}
 
