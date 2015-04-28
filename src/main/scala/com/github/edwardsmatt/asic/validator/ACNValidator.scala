@@ -14,7 +14,7 @@ object ACNValidator {
 	val toCheckSumDigits = (acn: Array[Int]) => acn.take(acn.length -1)
 
 	/** Calculate the complement of an ACN. */
-	def complement(acn: Array[Int]): Int = (toCheckSumDigits andThen toProduct andThen toRemainder andThen toComplement)(acn)
+	def complement(acn: Array[Int]): Int = (toComplement compose toRemainder compose toProduct compose toCheckSumDigits)(acn)
 
 	/** Format the ACN as per the ASIC convention,  in three blocks of three characters separated by a space.*/
 	def formatAcn(s: String) = removeWhitespace(s).grouped(3).toList.mkString(" ")
