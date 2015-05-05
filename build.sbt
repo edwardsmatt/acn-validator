@@ -1,7 +1,9 @@
 lazy val commonSettings = Seq(
   organization := "com.github.edwardsmatt",
-  version := "0.0.1",
-  scalaVersion := "2.11.6"
+  version := "0.0.1-SNAPSHOT",
+  scalaVersion := "2.11.6",
+  publishMavenStyle := true,
+  crossPaths := false
 )
 
 lazy val root = (project in file(".")).
