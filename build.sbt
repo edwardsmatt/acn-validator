@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).
   settings(commonSettings: _*).
   settings(
     name := "acn-validator",
-    libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
+    libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
   )
 
 wartremoverWarnings ++= Warts.all
