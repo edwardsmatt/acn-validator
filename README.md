@@ -17,7 +17,7 @@ http://www.asic.gov.au/for-business/starting-a-company/how-to-start-a-company/au
         <dependency>
             <groupId>com.github.edwardsmatt</groupId>
             <artifactId>acn-validator</artifactId>
-            <version>2.11-0.0.1</version>
+            <version>0.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
 
