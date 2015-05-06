@@ -16,7 +16,7 @@ package com.github.edwardsmatt.asic.validator;
 
   object ACNValidator {
   	import Fns._
-  	import Util.{isNumeric, removeWhitespace}
+  	import Util.{isCorrectLength, isNumeric, removeWhitespace}
 
 	/** Check whether an Int Array is a valid ACN. */
 	def isValid(acn: Seq[Int]): Boolean = checkDigit(acn).fold(false){_ == complement(acn)}
@@ -34,11 +34,14 @@ package com.github.edwardsmatt.asic.validator;
 
 	/** Parse and sanitize input strings */
 	def parseInput(s: String): Either[String, Seq[Int]]  = {
-		val stripped = removeWhitespace(s)
-		if (stripped.isEmpty) Left[String, Seq[Int]]("Invalid input: blank") 
-		else if (!isNumeric(stripped)) Left[String, Seq[Int]]("Invalid input: must be numeric")
-		else if (stripped.length != 9) Left[String, Seq[Int]](s"Invalid input: Expected 9 digits (was ${stripped.length})")
-		else Right[String, Seq[Int]](stripped.toCharArray.toList.map(c => Integer.parseInt(c+"")))
+		def toEither(i: String): Either[String, Seq[Int]] =  i match {
+			case _ if i.isEmpty => Left[String, Seq[Int]]("Invalid input: blank")
+			case _ if !isNumeric(i) => Left[String, Seq[Int]]("Invalid input: must be numeric")
+			case _ if !isCorrectLength(i) => Left[String, Seq[Int]](s"Invalid input: Expected 9 digits (was ${i.length})")
+			case _ => Right[String, Seq[Int]](i.toCharArray.toList.map(c => Integer.parseInt(c+"")))
+		}
+
+		toEither(removeWhitespace(s))
 	}
 }
 
@@ -89,6 +92,8 @@ object Format {
 object Util {
 	/** Checks whether all Characters in a string are digits. */
 	def isNumeric(s: String): Boolean = s.forall(_.isDigit)
+	/** Returns true if the string length does not equal 9 characters. */
+	val isCorrectLength = (_: String).length == 9
 	/** Removes any whitespace characters from s: String . */
 	def removeWhitespace = (s: String) => s.toCharArray.toList.filter(!_.isWhitespace).mkString
 }
