@@ -40,7 +40,6 @@ package com.github.edwardsmatt.asic.validator;
 			case _ if !isCorrectLength(i) => Left[String, Seq[Int]](s"Invalid input: Expected 9 digits (was ${i.length})")
 			case _ => Right[String, Seq[Int]](i.toCharArray.toList.map(c => Integer.parseInt(c+"")))
 		}
-
 		toEither(removeWhitespace(s))
 	}
 }
